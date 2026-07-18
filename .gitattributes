@@ -1,0 +1,17 @@
+# Normalize all text files to LF in the repo and working tree.
+# This stops the "LF will be replaced by CRLF" warnings on Windows and keeps
+# line endings consistent across macOS / Linux / Windows.
+* text=auto eol=lf
+
+# Binary assets — never convert line endings.
+*.webp -text
+*.png  -text
+*.jpg  -text
+*.jpeg -text
+*.gif  -text
+*.ico  -text
+*.woff -text
+*.woff2 -text
+*.ttf  -text
+*.otf  -text
+*.pdf  -text

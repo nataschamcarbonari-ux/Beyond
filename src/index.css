@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Lexend+Exa:wght@500&family=Lexend+Deca:wght@500&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /* The Figma design's authored width. Below this the page reflows;
+     at and above it the layout is pixel-faithful to the source. */
+  --breakpoint-desk: 85.375rem;
+
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-display: "Lexend Exa", "Manrope", sans-serif;
+  /* Compact wordmark used only in the site header (Figma: Lexend Deca Medium). */
+  --font-deca: "Lexend Deca", "Manrope", sans-serif;
+
+  --color-ink: #1e1e1e;
+  --color-muted: #777777;
+  --color-accent: #a63f1e;
+  --color-surface: #fdfdfd;
+  --color-surface-alt: #f1f1f1;
+}
+
+html {
+  /* Smooth side-nav jumps, offset so targets land below the 61px sticky header
+     instead of behind it. */
+  scroll-behavior: smooth;
+  scroll-padding-top: 68px;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-surface);
+}
+
+:root {
+  /* Unitless scale factor for the 1366px-authored desktop canvas.
+     At 1366px viewport width this is exactly 1 (zero-op — every value
+     already verified pixel-perfect against Figma stays untouched).
+     It then grows linearly with viewport width up to a cap at 1920px
+     (scale ~1.4056), beyond which it holds flat so text/spacing never
+     become absurdly oversized on ultra-wide or TV displays.
+     Used as `scale(var(--page-scale))` on each section's 1366px canvas,
+     and to compensate that canvas's reserved layout height so scaled
+     content never overlaps the next section:
+     height: calc(<original-px> * var(--page-scale)). */
+  --page-scale: clamp(1, calc(100vw / 1366px), 1.4056);
+
+  /* Shared horizontal gutter. The page-scale sections scale their 64px
+     Figma gutter along with everything else, so above 1366px their content
+     sits at 64px*scale (~90px at >=1920) from the edge. Sections that do NOT
+     use the page-scale transform (the full-height/100dvh sections, the
+     section labels, and the footer) apply this token as their desktop
+     left/right padding so every left-aligned block and label shares the
+     exact same gutter at every width (64px at <=1366, up to ~90px). */
+  --gutter-x: calc(64px * var(--page-scale));
+
+  /* Maximum content width. Matches the point where --page-scale stops growing
+     (1366 * 1.4056 ≈ 1920), so the page-scale sections (which already cap +
+     center there) and the fluid sections/heroes/footers all hold at the same
+     width on ultra-wide displays. Beyond it, the extra space becomes side
+     margins in each section's own background color. */
+  --content-max: 1920px;
+}
